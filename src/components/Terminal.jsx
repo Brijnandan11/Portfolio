@@ -20,9 +20,10 @@ const SITE_DEFAULT = { email: 'brij19069@gmail.com' }
 const ART = `██████╗
 ██╔══██╗
 ██║  ██║
-██║  ██║
 ██████╔╝
-╚═════╝`
+██║  ██║
+██║  ██║
+██████╔╝`
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 

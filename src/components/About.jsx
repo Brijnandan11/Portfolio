@@ -119,7 +119,7 @@ export default function About() {
               <img className="about-img" src={aboutImg} alt="Portrait of Brij" />
             ) : (
               <div className="portrait-ph">
-                <span className="portrait-ph-mark">D®</span>
+                <span className="portrait-ph-mark">B®</span>
                 <span className="portrait-ph-scan" />
                 <p className="portrait-ph-note">
                   portrait — coming soon
