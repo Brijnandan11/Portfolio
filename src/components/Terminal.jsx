@@ -15,7 +15,7 @@ const TERMINAL_DEFAULT = {
     { label: 'DevOps / Cloud', pct: 84 },
   ],
 }
-const SITE_DEFAULT = { email: 'team.curateme11@gmail.com' }
+const SITE_DEFAULT = { email: 'brij19069@gmail.com' }
 
 const ART = `██████╗
 ██╔══██╗
@@ -87,8 +87,8 @@ function Neofetch() {
         <p><b>OS</b> Arch Linux (btw)</p>
         <p><b>Shell</b> zsh + tmux</p>
         <p><b>Editor</b> neovim</p>
-        <p><b>Stack</b> ts · react · node · rust</p>
-        <p><b>Uptime</b> 4+ years shipping</p>
+        <p><b>Stack</b> ts · react · node · typescript</p>
+        <p><b>Uptime</b> 2+ years shipping</p>
         <p><b>Status</b> <span className="ok">● open for work</span></p>
       </div>
     </div>

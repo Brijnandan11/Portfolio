@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useContent } from '../content.jsx'
 
-const SITE_DEFAULT = { github: 'gudhalarya' }
+const SITE_DEFAULT = { github: 'Brijnandan11' }
 
 const DAYS = 26 * 7 // last ~6 months
 
