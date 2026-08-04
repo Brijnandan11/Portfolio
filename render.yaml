@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: brij-portfolio-api
+    runtime: rust
+    rootDir: server
+    plan: free
+    region: oregon
+    buildCommand: cargo build --release
+    startCommand: ./target/release/brij-server
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
