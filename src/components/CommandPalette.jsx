@@ -45,11 +45,10 @@ export default function CommandPalette() {
       setQ('')
       setIdx(0)
       setTimeout(() => inputRef.current?.focus(), 80)
-      try {
+        try {
         setUnlocked(
           JSON.parse(
             localStorage.getItem('brij_achievements') ||
-              localStorage.getItem('draken_achievements') ||
               '[]'
           ).length
         )

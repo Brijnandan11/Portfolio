@@ -46,7 +46,7 @@ const PROJECTS = [
   },
   // {
   //   key: 'blogify',
-  //   title: 'Blogify',
+  //   title: 'Portfolio OS',
   //   url: 'blogify.ink',
   //   desc: 'A minimal publishing engine with markdown pipelines, edge caching, and sub-second page loads — writing-first, everything else second.',
   //   tags: ['React', 'Go', 'SQLite', 'Fly.io'],

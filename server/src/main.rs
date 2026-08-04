@@ -363,8 +363,8 @@ async fn migrate_and_seed(pool: &PgPool) -> Result<(), sqlx::Error> {
         log::info!("seeding default site content");
         let defaults = serde_json::json!({
             "site": {
-                "email": "team.curateme11@gmail.com",
-                "github": "gudhalarya",
+                "email": "brij19069@gmail.com",
+                "github": "Brijnandan11",
                 "linkedin": "https://linkedin.com",
                 "x": "https://x.com",
                 "note": "— usually replies within a day"
@@ -381,7 +381,7 @@ async fn migrate_and_seed(pool: &PgPool) -> Result<(), sqlx::Error> {
             "about": {
                 "text": "I build products end to end — *resilient* *backends,* expressive frontends, and the infrastructure that keeps them alive. I obsess over *performance,* *craft,* and the tiny details most people never notice but everyone *feels.*",
                 "stats": [
-                    {"value": "4", "label": "Years shipping"},
+                    {"value": "2", "label": "Years shipping"},
                     {"value": "20", "label": "Projects delivered"},
                     {"value": "∞", "label": "Curiosity"}
                 ]

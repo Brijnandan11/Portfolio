@@ -6,15 +6,9 @@ export function ContentProvider({ children }) {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    fetch('/api/content')
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => {
-        if (d && typeof d === 'object') {
-          setData(d)
-          window.__siteContent = d
-        }
-      })
-      .catch(() => {})
+    // Keep the site code-first. If an API exists, it should not override
+    // the shipped defaults or bring back stale seeded content.
+    window.__siteContent = {}
   }, [])
 
   return <Ctx.Provider value={data}>{children}</Ctx.Provider>
