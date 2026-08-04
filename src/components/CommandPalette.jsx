@@ -78,7 +78,7 @@ export default function CommandPalette() {
         group: 'actions',
         run: () => {
           navigator.clipboard?.writeText(
-            window.__siteContent?.site?.email || 'team.curateme11@gmail.com'
+            window.__siteContent?.site?.email || 'brij19069@gmail.com'
           )
           achieve('copy')
         },
@@ -89,7 +89,7 @@ export default function CommandPalette() {
         group: 'actions',
         run: () =>
           window.open(
-            `https://github.com/${window.__siteContent?.site?.github || 'gudhalarya'}`,
+            `https://github.com/${window.__siteContent?.site?.github || 'Brijnandan11'}`,
             '_blank'
           ),
       },

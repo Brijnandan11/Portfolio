@@ -30,7 +30,7 @@ export default function GithubHeat() {
   const [total, setTotal] = useState(0)
   const [demo, setDemo] = useState(false)
   const site = useContent('site', SITE_DEFAULT)
-  const GITHUB_USER = site.github || 'gudhalarya'
+  const GITHUB_USER = site.github || 'Brijnandan11'
 
   useEffect(() => {
     fetch(`https://github-contributions-api.jogruber.de/v4/${GITHUB_USER}?y=last`)

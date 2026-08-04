@@ -141,7 +141,7 @@ function ProjectForm({ initial, onSave, onCancel }) {
     <div className="a-form">
       <div className="a-grid">
         <label>key<input value={form.key} onChange={set('key')} placeholder="ferrox" /></label>
-        <label>title<input value={form.title} onChange={set('title')} placeholder="Ferrox Gateway" /></label>
+        <label>title<input value={form.title} onChange={set('title')} placeholder="Sentinel-Auth" /></label>
         <label>url<input value={form.url} onChange={set('url')} placeholder="ferrox.dev" /></label>
         <label>mark<input value={form.mark} onChange={set('mark')} placeholder="fx" /></label>
         <label>position<input type="number" value={form.position} onChange={(e) => setForm({ ...form, position: +e.target.value })} /></label>

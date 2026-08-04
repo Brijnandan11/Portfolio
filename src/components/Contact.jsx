@@ -6,8 +6,8 @@ import { achieve } from './Achievements.jsx'
 import { useContent } from '../content.jsx'
 
 const SITE_DEFAULT = {
-  email: 'team.curateme11@gmail.com',
-  github: 'gudhalarya',
+  email: 'brij19069@gmail.com',
+  github: 'Brijnandan11',
   linkedin: 'https://linkedin.com',
   x: 'https://x.com',
   note: '— usually replies within a day',

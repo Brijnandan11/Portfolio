@@ -296,10 +296,9 @@ export default function Terminal() {
     }
     if (low === 'projects' || low === 'ls projects') {
       push(
-        { kind: 'out', text: 'drwxr-xr-x  ferrox-gateway/    rust · actix · redis' },
-        { kind: 'out', text: 'drwxr-xr-x  curateme-studio/   next · node · postgres' },
-        { kind: 'out', text: 'drwxr-xr-x  textile-flow/      react · express · mongo' },
-        { kind: 'out', text: 'drwxr-xr-x  blogify/           react · go · sqlite' },
+        { kind: 'out', text: 'drwxr-xr-x  sentinel-auth/    javascript · node · jwt' },
+        { kind: 'out', text: 'drwxr-xr-x  forge/            go · postgres · npm' },
+        { kind: 'out', text: 'drwxr-xr-x  seatlock-engine/  typescript · redis · docker' },
         { kind: 'out', text: 'scroll up to §02 for the full tour ↑', cls: 'dim' }
       )
       return
@@ -321,7 +320,7 @@ export default function Terminal() {
       return
     }
     if (low === 'uptime') {
-      push({ kind: 'out', text: 'up 4+ years, 20+ projects shipped, 0 burnouts (rounded down)', cls: 'hl' })
+      push({ kind: 'out', text: 'up 2+ years, 20+ projects shipped, 0 burnouts (rounded down)', cls: 'hl' })
       return
     }
     if (low === 'snake') {

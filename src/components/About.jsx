@@ -13,7 +13,7 @@ const aboutImg = Object.values(
 const ABOUT_DEFAULT = {
   text: 'I build products end to end — *resilient* *backends,* expressive frontends, and the infrastructure that keeps them alive. I obsess over *performance,* *craft,* and the tiny details most people never notice but everyone *feels.*',
   stats: [
-    { value: '4', label: 'Years shipping' },
+    { value: '2', label: 'Years shipping' },
     { value: '20', label: 'Projects delivered' },
     { value: '∞', label: 'Curiosity' },
   ],
