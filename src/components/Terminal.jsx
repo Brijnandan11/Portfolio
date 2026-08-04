@@ -22,7 +22,7 @@ const ART = `██████╗
 ██║  ██║
 ██████╔╝
 ██║  ██║
-██║  ██║
+██║  ██║           
 ██████╔╝`
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -429,7 +429,7 @@ export default function Terminal() {
           <i className="b-dot b-dot--accent" />
           <i className="b-dot" />
           <i className="b-dot" />
-          <span className="terminal-title">brij@portfolio — zsh</span>
+          <span className="terminal-title">brij@portfolio — bash</span>
         </div>
         <MatrixRain active={matrix} />
         <div className="terminal-body" ref={bodyRef} data-lenis-prevent>
