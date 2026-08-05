@@ -9,7 +9,7 @@ const SITE_DEFAULT = {
   email: 'brij19069@gmail.com',
   github: 'Brijnandan11',
   linkedin: 'https://linkedin.com',
-  x: 'https://x.com',
+  x: 'https://x.com/BRIJhqu',
   note: '— usually replies within a day',
 }
 
