@@ -228,7 +228,41 @@ export default function Hero({ loaded }) {
   return (
     <section className="hero" id="top" ref={rootRef}>
       <div className="hero-glow" ref={glowRef} />
+      <svg
+        className="hero-nodegraph"
+        aria-hidden="true"
+        viewBox="0 0 1200 700"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <g className="ng-edges">
+          <line x1="120" y1="140" x2="340" y2="80" />
+          <line x1="340" y1="80" x2="560" y2="180" />
+          <line x1="560" y1="180" x2="820" y2="110" />
+          <line x1="820" y1="110" x2="1040" y2="220" />
+          <line x1="120" y1="140" x2="200" y2="380" />
+          <line x1="200" y1="380" x2="480" y2="420" />
+          <line x1="480" y1="420" x2="560" y2="180" />
+          <line x1="480" y1="420" x2="760" y2="380" />
+          <line x1="760" y1="380" x2="1040" y2="220" />
+          <line x1="200" y1="380" x2="140" y2="560" />
+        </g>
+        <g className="ng-nodes">
+          <circle cx="120" cy="140" r="4" />
+          <circle cx="340" cy="80" r="4" />
+          <circle cx="560" cy="180" r="5" />
+          <circle cx="820" cy="110" r="4" />
+          <circle cx="1040" cy="220" r="4" />
+          <circle cx="200" cy="380" r="5" />
+          <circle cx="480" cy="420" r="4" />
+          <circle cx="760" cy="380" r="4" />
+          <circle cx="140" cy="560" r="4" />
+        </g>
+      </svg>
       <div className="hero-inner">
+        <div className="hero-badge">
+          <span className="hero-badge-dot" />
+          Available for freelance work
+        </div>
         <div className="hero-meta">
           <p className="hero-intro">
             {richParts(hero.intro).map((p, i) =>
