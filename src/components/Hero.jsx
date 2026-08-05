@@ -22,11 +22,20 @@ export default function Hero({ loaded }) {
   const glowRef = useRef(null)
   const charsRef = useRef([])
   const [roleIndex, setRoleIndex] = useState(0)
+  const [requests, setRequests] = useState(1204933)
 
   useEffect(() => {
     const id = setInterval(() => setRoleIndex((i) => (i + 1) % ROLES.length), 2600)
     return () => clearInterval(id)
   }, [ROLES.length])
+
+  useEffect(() => {
+    const id = setInterval(
+      () => setRequests((n) => n + Math.floor(20 + Math.random() * 140)),
+      1800
+    )
+    return () => clearInterval(id)
+  }, [])
 
   useEffect(() => {
     if (!loaded) return
@@ -234,34 +243,71 @@ export default function Hero({ loaded }) {
         viewBox="0 0 1200 700"
         preserveAspectRatio="xMidYMid slice"
       >
+        <defs>
+          <path id="e1" d="M120,140 L340,80" />
+          <path id="e2" d="M340,80 L560,180" />
+          <path id="e3" d="M560,180 L820,110" />
+          <path id="e4" d="M820,110 L1040,220" />
+          <path id="e5" d="M120,140 L200,380" />
+          <path id="e6" d="M200,380 L480,420" />
+          <path id="e7" d="M480,420 L560,180" />
+          <path id="e8" d="M480,420 L760,380" />
+          <path id="e9" d="M760,380 L1040,220" />
+          <path id="e10" d="M200,380 L140,560" />
+        </defs>
         <g className="ng-edges">
-          <line x1="120" y1="140" x2="340" y2="80" />
-          <line x1="340" y1="80" x2="560" y2="180" />
-          <line x1="560" y1="180" x2="820" y2="110" />
-          <line x1="820" y1="110" x2="1040" y2="220" />
-          <line x1="120" y1="140" x2="200" y2="380" />
-          <line x1="200" y1="380" x2="480" y2="420" />
-          <line x1="480" y1="420" x2="560" y2="180" />
-          <line x1="480" y1="420" x2="760" y2="380" />
-          <line x1="760" y1="380" x2="1040" y2="220" />
-          <line x1="200" y1="380" x2="140" y2="560" />
+          <use href="#e1" /><use href="#e2" /><use href="#e3" /><use href="#e4" />
+          <use href="#e5" /><use href="#e6" /><use href="#e7" /><use href="#e8" />
+          <use href="#e9" /><use href="#e10" />
         </g>
         <g className="ng-nodes">
-          <circle cx="120" cy="140" r="4" />
-          <circle cx="340" cy="80" r="4" />
-          <circle cx="560" cy="180" r="5" />
-          <circle cx="820" cy="110" r="4" />
-          <circle cx="1040" cy="220" r="4" />
-          <circle cx="200" cy="380" r="5" />
-          <circle cx="480" cy="420" r="4" />
-          <circle cx="760" cy="380" r="4" />
-          <circle cx="140" cy="560" r="4" />
+          <circle cx="120" cy="140" r="5" />
+          <circle cx="340" cy="80" r="5" />
+          <circle cx="560" cy="180" r="6" />
+          <circle cx="820" cy="110" r="5" />
+          <circle cx="1040" cy="220" r="5" />
+          <circle cx="200" cy="380" r="6" />
+          <circle cx="480" cy="420" r="5" />
+          <circle cx="760" cy="380" r="5" />
+          <circle cx="140" cy="560" r="5" />
+        </g>
+        <g className="ng-packets">
+          <circle r="3.2" className="ng-packet ng-packet--accent">
+            <animateMotion dur="3.2s" repeatCount="indefinite">
+              <mpath href="#e1" />
+            </animateMotion>
+          </circle>
+          <circle r="3.2" className="ng-packet">
+            <animateMotion dur="4.1s" repeatCount="indefinite" begin="-1s">
+              <mpath href="#e3" />
+            </animateMotion>
+          </circle>
+          <circle r="3.2" className="ng-packet ng-packet--accent">
+            <animateMotion dur="3.6s" repeatCount="indefinite" begin="-2s">
+              <mpath href="#e6" />
+            </animateMotion>
+          </circle>
+          <circle r="3.2" className="ng-packet">
+            <animateMotion dur="4.4s" repeatCount="indefinite" begin="-0.5s">
+              <mpath href="#e8" />
+            </animateMotion>
+          </circle>
+          <circle r="3.2" className="ng-packet ng-packet--accent">
+            <animateMotion dur="3.9s" repeatCount="indefinite" begin="-1.6s">
+              <mpath href="#e9" />
+            </animateMotion>
+          </circle>
         </g>
       </svg>
       <div className="hero-inner">
-        <div className="hero-badge">
-          <span className="hero-badge-dot" />
-          Available for freelance work
+        <div className="hero-status">
+          <p className="hero-status-title">
+            <span className="hero-status-dot" /> system status
+          </p>
+          <div className="hero-status-row"><span>uptime</span><b>99.98%</b></div>
+          <div className="hero-status-row"><span>requests</span><b>{requests.toLocaleString()}</b></div>
+          <div className="hero-status-row"><span>latency</span><b>42ms</b></div>
+          <div className="hero-status-row"><span>last deploy</span><b>3h ago</b></div>
         </div>
         <div className="hero-meta">
           <p className="hero-intro">
@@ -286,6 +332,7 @@ export default function Hero({ loaded }) {
             ))}
           </p>
         </div>
+        <div className="hero-title-glow" aria-hidden="true" />
         <h1 className="hero-title" aria-label={NAME} data-cursor="BOOM">
           {NAME.split('').map((char, i) => (
             <span className="char-mask" key={i} aria-hidden>
