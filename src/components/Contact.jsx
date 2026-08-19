@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import SlatReveal from './SlatReveal.jsx'
 import { achieve } from './Achievements.jsx'
 import { useContent } from '../content.jsx'
+import OrbitFooter from './orbit-footer/OrbitFooter.jsx'
 
 const SITE_DEFAULT = {
   email: 'brij19069@gmail.com',
@@ -44,7 +45,6 @@ function Magnetic({ children }) {
 
 export default function Contact() {
   const rootRef = useRef(null)
-  const [time, setTime] = useState('')
   const [copied, setCopied] = useState(false)
   const site = useContent('site', SITE_DEFAULT)
   const EMAIL = site.email
@@ -83,18 +83,6 @@ export default function Contact() {
       )
     }
   }
-
-
-  useEffect(() => {
-    const update = () =>
-      setTime(
-        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      )
-    update()
-    const id = setInterval(update, 30_000)
-    return () => clearInterval(id)
-  }, [])
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -140,23 +128,6 @@ export default function Contact() {
           scrub: 1,
         },
       })
-      gsap.fromTo(
-        '.footer-ghost span',
-        { yPercent: 70, opacity: 0, rotate: 6 },
-        {
-          yPercent: 0,
-          opacity: 1,
-          rotate: 0,
-          stagger: 0.06,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.footer-ghost',
-            start: 'top 98%',
-            end: 'bottom 96%',
-            scrub: 1,
-          },
-        }
-      )
     }, rootRef)
     return () => ctx.revert()
   }, [])
@@ -231,60 +202,7 @@ export default function Contact() {
           <p className="contact-note">{site.note}</p>
         </div>
       </div>
-      <div>
-        <div className="footer-ghost" aria-hidden>
-          {'BRIJ'.split('').map((c, i) => (
-            <span
-              key={i}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget
-                gsap.to(el, {
-                  y: -46,
-                  scaleY: 1.12,
-                  duration: 0.16,
-                  ease: 'power2.out',
-                  overwrite: true,
-                  onComplete: () =>
-                    gsap.to(el, {
-                      y: 0,
-                      scaleY: 1,
-                      duration: 1.3,
-                      ease: 'elastic.out(1, 0.32)',
-                    }),
-                })
-              }}
-              onClick={(e) =>
-                gsap.to(e.currentTarget, {
-                  rotate: '+=360',
-                  duration: 0.9,
-                  ease: 'back.inOut(1.4)',
-                })
-              }
-            >
-              {c}
-            </span>
-          ))}
-        </div>
-        <div className="footer-bar">
-          <p>© 2026 Brij. All rights reserved.</p>
-          <div className="footer-socials">
-            <a href={`https://github.com/${site.github}`} target="_blank" rel="noreferrer">GitHub</a>
-            <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href={site.x} target="_blank" rel="noreferrer">X / Twitter</a>
-          </div>
-          <p className="cmdk-hint">⌘K — command menu</p>
-          <p>Local time — {time}</p>
-          <Magnetic>
-            <button
-              className="back-top"
-              onClick={() => window.lenis?.scrollTo(0, { duration: 2 })}
-              data-cursor="TOP"
-            >
-              ↑
-            </button>
-          </Magnetic>
-        </div>
-      </div>
+      <OrbitFooter />
     </footer>
   )
 }

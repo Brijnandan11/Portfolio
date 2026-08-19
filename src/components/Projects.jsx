@@ -256,7 +256,12 @@ export default function Projects() {
           {projects.map((p, i) => {
             const shot = findShot(p.key)
             return (
-              <article className="project-card" key={p.title} data-cursor="VIEW">
+              <article
+                className="project-card"
+                id={`project-${p.key}`}
+                key={p.title}
+                data-cursor="VIEW"
+              >
                 <div className="card-inner">
                 <div className="project-visual">
                   <div className="browser-bar">

@@ -1,0 +1,122 @@
+export const SITE_DEFAULT = {
+  email: 'brij19069@gmail.com',
+  github: 'Brijnandan11',
+  linkedin: 'https://linkedin.com',
+  x: 'https://x.com/BRIJhqu',
+}
+
+export const ORBIT_FOOTER_PROJECTS = [
+  {
+    id: 'sentinel-auth',
+    label: 'SENTINEL AUTH',
+    type: 'project',
+    variant: 'solid',
+    href: 'https://sentinel.example',
+    position: [278, -154, 42],
+    ariaLabel: 'Open Sentinel Auth project site',
+  },
+  {
+    id: 'forge',
+    label: 'FORGE',
+    type: 'project',
+    variant: 'outline',
+    href: 'https://forge.example',
+    position: [-266, 174, 84],
+    ariaLabel: 'Open Forge project site',
+  },
+  {
+    id: 'seatlock-engine',
+    label: 'SEATLOCK ENGINE',
+    type: 'project',
+    variant: 'solid',
+    href: 'https://seatlock.example',
+    position: [202, 182, 132],
+    ariaLabel: 'Open Seatlock Engine project site',
+  },
+]
+
+export const buildOrbitFooterCards = (site = SITE_DEFAULT) => [
+  {
+    id: 'node',
+    label: 'NODE.JS',
+    type: 'tech',
+    variant: 'outline',
+    position: [-250, -150, 62],
+  },
+  {
+    id: 'postgres',
+    label: 'POSTGRES',
+    type: 'tech',
+    variant: 'solid',
+    position: [154, -184, 116],
+  },
+  {
+    id: 'redis',
+    label: 'REDIS',
+    type: 'tech',
+    variant: 'outline',
+    position: [-152, 96, 152],
+  },
+  {
+    id: 'docker',
+    label: 'DOCKER',
+    type: 'tech',
+    variant: 'solid',
+    position: [286, 86, 44],
+  },
+  {
+    id: 'typescript',
+    label: 'TYPESCRIPT',
+    type: 'tech',
+    variant: 'solid',
+    position: [-34, -272, 148],
+  },
+  {
+    id: 'status',
+    label: 'STATUS',
+    type: 'status',
+    variant: 'outline',
+    position: [28, 138, 232],
+    ariaLabel: 'Live status card with local time and availability',
+  },
+  ...ORBIT_FOOTER_PROJECTS,
+  {
+    id: 'github',
+    label: 'GITHUB',
+    type: 'social',
+    variant: 'outline',
+    href: `https://github.com/${site.github}`,
+    position: [-320, -8, 208],
+    ariaLabel: 'Open GitHub profile in a new tab',
+  },
+  {
+    id: 'linkedin',
+    label: 'LINKEDIN',
+    type: 'social',
+    variant: 'solid',
+    href: site.linkedin,
+    position: [88, 236, 72],
+    ariaLabel: 'Open LinkedIn profile in a new tab',
+  },
+  {
+    id: 'fast',
+    label: 'FAST',
+    type: 'easter-egg',
+    variant: 'outline',
+    position: [248, -88, 176],
+  },
+]
+
+export const ORBIT_FOOTER_LINES = [
+  ['node', 'sentinel-auth'],
+  ['node', 'status'],
+  ['typescript', 'forge'],
+  ['postgres', 'seatlock-engine'],
+  ['redis', 'seatlock-engine'],
+  ['docker', 'seatlock-engine'],
+  ['docker', 'status'],
+  ['github', 'forge'],
+  ['linkedin', 'sentinel-auth'],
+  ['fast', 'typescript'],
+  ['fast', 'status'],
+]
