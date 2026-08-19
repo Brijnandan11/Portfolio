@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
-import TechGravity from './TechGravity.jsx'
+import SkillsShowcase from './SkillsShowcase.jsx'
 import SlatReveal from './SlatReveal.jsx'
 import { useContent } from '../content.jsx'
 
@@ -221,7 +221,7 @@ export default function Services() {
         </AnimatePresence>
       </div>
 
-      <TechGravity />
+      <SkillsShowcase />
     </section>
   )
 }
