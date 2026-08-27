@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useContent } from '../content.jsx'
+import useLocalTime from '../hooks/useLocalTime.js'
 
 const SITE_DEFAULT = {
   email: 'brij19069@gmail.com',
@@ -58,17 +59,7 @@ export default function Nav({ loaded }) {
   const [open, setOpen] = useState(false)
   const site = useContent('site', SITE_DEFAULT)
   const [hovered, setHovered] = useState(null)
-  const [time, setTime] = useState('')
-
-  useEffect(() => {
-    const update = () =>
-      setTime(
-        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      )
-    update()
-    const id = setInterval(update, 30_000)
-    return () => clearInterval(id)
-  }, [])
+  const { time } = useLocalTime()
 
   useEffect(() => {
     const lenis = window.lenis

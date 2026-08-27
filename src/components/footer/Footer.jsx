@@ -1,9 +1,8 @@
 import { useContent } from '../../content.jsx'
-import FooterCta from './FooterCta.jsx'
-import FooterEdge from './FooterEdge.jsx'
-import FooterMascot from './FooterMascot.jsx'
-import FooterNav from './FooterNav.jsx'
-import FooterSocial from './FooterSocial.jsx'
+import useLocalTime from '../../hooks/useLocalTime.js'
+import SocialIconStack from './SocialIconStack.jsx'
+import StatusCard from './StatusCard.jsx'
+import StickyNote from './StickyNote.jsx'
 
 const SITE_DEFAULT = {
   email: 'brij19069@gmail.com',
@@ -12,37 +11,25 @@ const SITE_DEFAULT = {
   x: 'https://x.com/BRIJhqu',
 }
 
-const NAV_ITEMS = [
-  ['About', '#about'],
-  ['Services', '#services'],
-  ['Projects', '#work'],
-  ['Terminal', '#terminal'],
-  ['Contact', '#contact'],
-]
-
 export default function Footer() {
   const site = useContent('site', SITE_DEFAULT)
+  const { time, city } = useLocalTime()
 
   return (
     <footer className="footer-shell" aria-label="Site footer">
-      <div className="footer-stage">
-        <div className="footer-stage-inner">
-          <FooterMascot />
-        </div>
-        <FooterEdge />
+      <div className="footer-meta footer-meta--updated">
+        <span>LAST UPDATED</span>
+        <strong>August 27th, 2026</strong>
       </div>
-
-      <div className="footer-band">
-        <div className="footer-band-inner">
-          <FooterNav items={NAV_ITEMS} />
-          <FooterCta email={site.email} />
-          <FooterSocial site={site} />
-        </div>
+      <div className="footer-meta footer-meta--local">
+        <span>LOCAL</span>
+        <strong>☉ {city}, {time}</strong>
       </div>
-
-      <div className="footer-bottom-text" aria-hidden="true">
-        <span>BRIJ</span>
+      <div className="footer-note-wrap">
+        <StickyNote email={site.email} />
+        <SocialIconStack site={site} />
       </div>
+      <StatusCard />
     </footer>
   )
 }
