@@ -6,44 +6,18 @@ import { useReducedMotion } from 'framer-motion'
 import { achieve } from './Achievements.jsx'
 import { buildSkillsFromRows, FALLBACK_SKILLS } from './skillsShowcase.data.js'
 
-function ProficiencyMeter({ value }) {
-  return (
-    <div className="skills-meter" aria-label={`Proficiency ${value} out of 5`}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className={`skills-meter-bit${i < value ? ' is-on' : ''}`} />
-      ))}
-    </div>
-  )
-}
-
-function SkillActionButton({ children, onClick, className = '' }) {
-  return (
-    <button
-      type="button"
-      className={`skills-action-btn ${className}`.trim()}
-      onMouseDown={(e) => e.stopPropagation()}
-      onClick={onClick}
-      data-hover
-    >
-      {children}
-    </button>
-  )
-}
-
 export default function SkillsShowcase({
   skills: skillsProp,
-  heroTitle = 'SKILLS',
+  heroTitle = 'ARSENAL',
   navTitle = 'TOOLBOX',
   className = '',
   onSkillSelect,
-  onViewProjects,
-  showDetailPanel = true,
+  showDetailPanel = false,
 }) {
   const rootRef = useRef(null)
   const stageRef = useRef(null)
   const chipRefs = useRef([])
   const [selectedId, setSelectedId] = useState(FALLBACK_SKILLS[0]?.id || '')
-  const [copied, setCopied] = useState(false)
   const [finePointer, setFinePointer] = useState(() =>
     typeof window === 'undefined' ? true : window.matchMedia('(pointer: fine)').matches
   )
@@ -51,6 +25,13 @@ export default function SkillsShowcase({
   const [skills, setSkills] = useState(() =>
     Array.isArray(skillsProp) && skillsProp.length ? skillsProp : FALLBACK_SKILLS
   )
+
+  /* refs that the physics useEffect and button handlers share */
+  const engineRef = useRef(null)
+  const bodiesRef = useRef([])
+  const chipElsRef = useRef([])
+  const sizesRef = useRef([])
+  const updateRef = useRef(null)
 
   useEffect(() => {
     if (Array.isArray(skillsProp) && skillsProp.length) {
@@ -66,9 +47,7 @@ export default function SkillsShowcase({
         if (next.length) setSkills(next)
       })
       .catch(() => {})
-    return () => {
-      cancelled = true
-    }
+    return () => { cancelled = true }
   }, [skillsProp])
 
   useEffect(() => {
@@ -94,35 +73,7 @@ export default function SkillsShowcase({
     onSkillSelect?.(selected || null)
   }, [onSkillSelect, selected])
 
-  useEffect(() => {
-    if (!showDetailPanel) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.skills-showcase .skills-panel',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: rootRef.current, start: 'top 82%' },
-        }
-      )
-      gsap.fromTo(
-        '.skills-showcase .tech-gravity',
-        { opacity: 0, y: 46 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: rootRef.current, start: 'top 84%' },
-        }
-      )
-    }, rootRef)
-    return () => ctx.revert()
-  }, [showDetailPanel])
-
+  /* ---- Physics engine ---- */
   useEffect(() => {
     if (!interactive) return undefined
     let cleanup = null
@@ -137,6 +88,7 @@ export default function SkillsShowcase({
 
       const engine = Engine.create()
       engine.gravity.y = 1.15
+      engineRef.current = engine
 
       const wallOpts = { isStatic: true, restitution: 0.3 }
       World.add(engine.world, [
@@ -147,7 +99,10 @@ export default function SkillsShowcase({
       ])
 
       const chips = chipRefs.current.slice(0, skills.length).filter(Boolean)
+      chipElsRef.current = chips
       const sizes = chips.map((el) => [el.offsetWidth, el.offsetHeight])
+      sizesRef.current = sizes
+
       const bodies = chips.map((_el, i) => {
         const [w, h] = sizes[i]
         const x = 40 + Math.random() * Math.max(W - 80, 80)
@@ -161,6 +116,7 @@ export default function SkillsShowcase({
         return Bodies.rectangle(x, y, w, h, { ...opts, chamfer: { radius: h / 2 } })
       })
       World.add(engine.world, bodies)
+      bodiesRef.current = bodies
 
       const pusher = Bodies.circle(-400, -400, 40, {
         isStatic: true,
@@ -249,6 +205,7 @@ export default function SkillsShowcase({
         })
       }
 
+      updateRef.current = update
       gsap.ticker.add(update)
 
       return () => {
@@ -263,9 +220,7 @@ export default function SkillsShowcase({
       trigger: stageRef.current,
       start: 'top 72%',
       once: true,
-      onEnter: () => {
-        cleanup = init()
-      },
+      onEnter: () => { cleanup = init() },
     })
 
     let resizeTimer
@@ -287,58 +242,82 @@ export default function SkillsShowcase({
     }
   }, [interactive, skills])
 
-  const selectedIndex = skills.findIndex((skill) => skill.id === selected?.id)
-  const displaySkill = selected || FALLBACK_SKILLS[0]
-
-  const viewProjects = () => {
-    if (typeof onViewProjects === 'function') {
-      onViewProjects(selected)
-      return
-    }
-    const el = document.getElementById('work')
-    if (window.lenis?.scrollTo) {
-      window.lenis.scrollTo('#work', { duration: 1.4 })
-      return
-    }
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  /* ---- Physics button handlers ---- */
+  const explode = () => {
+    const engine = engineRef.current
+    const bodies = bodiesRef.current
+    const box = stageRef.current
+    if (!engine || !bodies.length || !box) return
+    achieve('arena')
+    const { Body } = Matter
+    const cx = box.clientWidth / 2
+    const cy = box.clientHeight / 2
+    bodies.forEach((b) => {
+      const dx = b.position.x - cx
+      const dy = b.position.y - cy
+      const d = Math.hypot(dx, dy) || 1
+      const power = 0.18
+      const f = power * b.mass
+      Body.applyForce(b, b.position, { x: (dx / d) * f, y: (dy / d) * f - f * 0.6 })
+    })
   }
 
-  const copyStackName = async () => {
-    try {
-      await navigator.clipboard.writeText(displaySkill?.name || '')
-      achieve('copy')
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1200)
-    } catch {
-      setCopied(false)
-    }
+  const zeroG = () => {
+    const engine = engineRef.current
+    if (!engine) return
+    engine.gravity.y = engine.gravity.y === 0 ? 1.15 : 0
+  }
+
+  const reRain = () => {
+    const engine = engineRef.current
+    const bodies = bodiesRef.current
+    const box = stageRef.current
+    if (!engine || !bodies.length || !box) return
+    const { Body } = Matter
+    const W = box.clientWidth
+    engine.gravity.y = 1.15
+    bodies.forEach((b, i) => {
+      const [w] = sizesRef.current[i] || [80, 36]
+      Body.setPosition(b, {
+        x: 40 + Math.random() * Math.max(W - 80, 80),
+        y: -80 - i * 42,
+      })
+      Body.setVelocity(b, { x: 0, y: 0 })
+      Body.setAngle(b, (Math.random() - 0.5) * 0.8)
+    })
   }
 
   return (
     <section className={`skills-showcase${className ? ` ${className}` : ''}`} ref={rootRef}>
-      <div className="scribble scribble--lg scribble--auto skills-showcase-scribble" aria-hidden>
-        <span>my tools, not a library</span>
-        <svg viewBox="0 0 130 12">
-          <path
-            d="M3 8 C 34 2, 68 11, 127 4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
+      {/* Title + buttons row */}
+      <div className="skills-showcase-header">
+        <div className="skills-showcase-title-wrap">
+          <h2 className="skills-showcase-title">my weapons of choice</h2>
+          <span className="skills-showcase-title-line" aria-hidden />
+        </div>
+        <div className="skills-showcase-controls">
+          <button type="button" className="arsenal-btn" onClick={explode} data-hover>
+            [ EXPLODE ]
+          </button>
+          <button type="button" className="arsenal-btn" onClick={zeroG} data-hover>
+            [ ZERO-G ]
+          </button>
+          <button type="button" className="arsenal-btn" onClick={reRain} data-hover>
+            [ RE-RAIN ]
+          </button>
+        </div>
       </div>
 
-      <div className="skills-showcase-top">
-        <span className="skills-showcase-kicker">{navTitle}</span>
-        <span className="skills-showcase-hint">({skills.length}) drag · click to inspect</span>
-      </div>
-
-      <div className="skills-showcase-grid">
-        <div className={`tech-gravity skills-stage${interactive ? ' is-interactive' : ' is-static'}`} ref={stageRef} data-cursor={interactive ? 'DRAG' : undefined}>
+      {/* Physics canvas */}
+      <div className="skills-showcase-canvas-wrap">
+        <div
+          className={`tech-gravity skills-stage${interactive ? ' is-interactive' : ' is-static'}`}
+          ref={stageRef}
+          data-cursor={interactive ? 'DRAG' : undefined}
+        >
           <span className="tech-gravity-word" aria-hidden>{heroTitle}</span>
           <span className="tech-gravity-hint">
-            ({skills.length}) skills — drag · click · double-click to scatter
+            ({skills.length}) — drag · click · double-click
           </span>
 
           {interactive ? (
@@ -348,9 +327,7 @@ export default function SkillsShowcase({
                 className={`g-chip ${item.variant || ''}${item.id === selected?.id ? ' is-selected' : ''}`}
                 key={item.id}
                 ref={(el) => (chipRefs.current[i] = el)}
-                style={{
-                  transform: 'translate(-400px, -400px)',
-                }}
+                style={{ transform: 'translate(-400px, -400px)' }}
                 aria-label={`${item.name}, ${item.category}, ${item.yearsUsed}`}
                 onClick={() => setSelectedId(item.id)}
               >
@@ -373,61 +350,6 @@ export default function SkillsShowcase({
             </div>
           )}
         </div>
-
-      {showDetailPanel && displaySkill && (
-        <aside className="skills-panel">
-            <div className="skills-panel-top">
-              <span className="skills-panel-kicker">SELECTED SKILL</span>
-              <span className="skills-panel-index">
-              {String((selectedIndex < 0 ? 0 : selectedIndex) + 1).padStart(2, '0')}
-            </span>
-          </div>
-
-          <h3 className="skills-panel-name">{displaySkill.name}</h3>
-
-          <div className="skills-panel-meta">
-              <span>{displaySkill.category || 'Systems'}</span>
-              <span>{String(displaySkill.yearsUsed || '').toUpperCase() || 'N/A'}</span>
-          </div>
-
-            <p className="skills-panel-desc">{displaySkill.description || 'Useful for shipping the boring part quickly.'}</p>
-
-            <div className="skills-panel-meter-row">
-              <span className="skills-panel-label">PROFICIENCY</span>
-              <span className="skills-panel-years">{String(displaySkill.yearsUsed || '').toUpperCase() || 'N/A'}</span>
-            </div>
-            <ProficiencyMeter value={displaySkill.proficiency || 3} />
-
-            <div className="skills-panel-usecases">
-              <span>USE CASES</span>
-              <ul>
-                {(displaySkill.useCases?.length ? displaySkill.useCases : ['Production use', 'Side projects', 'Learning']).map((useCase) => (
-                  <li key={useCase}>{useCase}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="skills-panel-actions">
-              <SkillActionButton className="is-primary" onClick={viewProjects}>
-                VIEW PROJECTS
-              </SkillActionButton>
-              <SkillActionButton onClick={copyStackName}>
-                {copied ? 'COPIED' : 'COPY STACK NAME'}
-              </SkillActionButton>
-              {displaySkill.docsUrl ? (
-                <a
-                  className="skills-docs-btn"
-                  href={displaySkill.docsUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open ${displaySkill.name} docs in a new tab`}
-                >
-                  ↗
-                </a>
-              ) : null}
-            </div>
-          </aside>
-        )}
       </div>
     </section>
   )
