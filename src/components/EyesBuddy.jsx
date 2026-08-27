@@ -7,6 +7,7 @@ export default function EyesBuddy() {
   const rootRef = useRef(null)
   const [bounds, setBounds] = useState({ top: 0, left: 0, right: 0, bottom: 0 })
   const [asleep, setAsleep] = useState(false)
+  const [inFooter, setInFooter] = useState(false)
 
   useEffect(() => {
     let timer
@@ -116,9 +117,20 @@ export default function EyesBuddy() {
     }
   }, [])
 
+  useEffect(() => {
+    const footer = document.querySelector('.footer-shell')
+    if (!footer) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setInFooter(entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <motion.div
-      className={`buddy${asleep ? ' is-asleep' : ''}`}
+      className={`buddy${asleep ? ' is-asleep' : ''}${inFooter ? ' is-footer-hidden' : ''}`}
       ref={rootRef}
       aria-hidden
       data-cursor={asleep ? 'SHH' : 'DRAG'}

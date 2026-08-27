@@ -11,7 +11,7 @@ const TERMINAL_DEFAULT = {
   bars: [
     { label: 'TypeScript / React', pct: 92 },
     { label: 'Node & APIs', pct: 90 },
-    { label: 'Rust & Systems', pct: 78 },
+    { label: 'Javascript & Systems', pct: 78 },
     { label: 'DevOps / Cloud', pct: 84 },
   ],
 }

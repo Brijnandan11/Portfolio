@@ -4,7 +4,6 @@ import gsap from 'gsap'
 import SlatReveal from './SlatReveal.jsx'
 import { achieve } from './Achievements.jsx'
 import { useContent } from '../content.jsx'
-import OrbitFooter from './orbit-footer/OrbitFooter.jsx'
 
 const SITE_DEFAULT = {
   email: 'brij19069@gmail.com',
@@ -133,7 +132,7 @@ export default function Contact() {
   }, [])
 
   return (
-    <footer className="contact" id="contact" ref={rootRef}>
+    <section className="contact" id="contact" ref={rootRef}>
       <SlatReveal horizontal reverse from="center" />
       <a className="cta-band" href={`mailto:${EMAIL}`} aria-label="Email me">
         <div className="cta-band-track">
@@ -202,7 +201,6 @@ export default function Contact() {
           <p className="contact-note">{site.note}</p>
         </div>
       </div>
-      <OrbitFooter />
-    </footer>
+    </section>
   )
 }

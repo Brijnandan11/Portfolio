@@ -14,10 +14,12 @@ import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
 import Marquee from './components/Marquee.jsx'
 import About from './components/About.jsx'
+import SkillsShowcaseDemo from './components/docs/skills-showcase-demo.tsx'
 import Projects from './components/Projects.jsx'
 import Services from './components/Services.jsx'
 import Terminal from './components/Terminal.jsx'
 import Contact from './components/Contact.jsx'
+import Footer from './components/footer/Footer.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -168,11 +170,13 @@ export default function App() {
         <Hero loaded={!loading} />
         <Marquee />
         <About />
+        <SkillsShowcaseDemo />
         <Projects />
         <Services />
         <Terminal />
         <Contact />
       </main>
+      <Footer />
     </ContentProvider>
   )
 }
